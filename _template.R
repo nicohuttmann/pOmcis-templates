@@ -5,8 +5,9 @@
 
 
 # Load libraries
-library(pOmics)
 library(tidyverse)
+library(pOmics)
+library(ptmOmics)
 
 # Load data image
 load("Data/RData/00.RData")
