@@ -74,7 +74,9 @@ install.packages("car") # Unbalanced ANOVA
 
 
 
+# ptmOmics
 
+install.packages("ggseqlogo")
 
 
 
