@@ -2,7 +2,6 @@
 #
 # 02
 # Prepare proteins to use for analysis
-# 
 #
 
 

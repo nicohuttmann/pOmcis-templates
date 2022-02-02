@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 # 
-=======
-
->>>>>>> 19853ef80ef43cdd2dcfd4dc9f0f3f1c9c3e17ad
 # 01
 # Data preparation
 #
