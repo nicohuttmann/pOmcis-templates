@@ -18,5 +18,6 @@ setup_folders()
 # ---- Download template scripts and copy to clipboard ---- 
 copy_template()
 
+
 download_template()
 

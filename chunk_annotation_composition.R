@@ -17,7 +17,7 @@ data_ <- do_annotation_composition(
   correct.fractions.by = "cellular_component")
 
 # Plot composition as bar plot
-data_ <- plot_gg_bar_composition(
+data_ <- plot_bar_composition(
   data_ = data_,
   TERMS = c("nucleus", 
             "intrinsic component of membrane", 

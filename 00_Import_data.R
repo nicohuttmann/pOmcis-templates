@@ -20,14 +20,14 @@ import_files(files = paste0("Data/",
 # ---- Create dataset from imported raw files ----
 new_dataset(import = .imports[["proteinGroups"]],
             name = "proteinGroups",
-            identifier = "Protein.IDs" ,
-            data.types = c("Gene.names",
-                           "Protein.names",
-                           "Peptides",
-                           "LFQ.intensity",
-                           "Only.identified.by.site",
-                           "Potential.contaminant",
-                           "Reverse"))
+            identifier = "Protein.IDs",
+            data.columns = c("Gene.names",
+                             "Protein.names",
+                             "Peptides",
+                             "LFQ.intensity",
+                             "Only.identified.by.site",
+                             "Potential.contaminant",
+                             "Reverse"))
 
 # ---- Create multiple datasets from imported raw files ----
 for (i in names(.imports)) {
