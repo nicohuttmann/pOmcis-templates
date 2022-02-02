@@ -1,24 +1,25 @@
 
-
+#
 # ##
-# What happens in this script
+# Title
+#
+# Description
+#
 
 
-# Load libraries
+# ---- Load libraries ----
 library(pOmics)
 library(tidyverse)
 
-# Load data image
+# ---- Load data image ---- 
 load("Data/RData/00.RData")
 
 
-
-# Chunk 1
-
+# ---- Chunk 1 ----
 
 
 
 
 
-# Save data image
+# ---- Save data image ---- 
 save.image("Data/RData/01.RData")

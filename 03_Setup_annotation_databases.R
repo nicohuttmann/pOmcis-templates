@@ -1,42 +1,61 @@
 
-
+# 
 # 03
-# What happens in this script
+# Download and setup annotation databases
+# 
 
 
-# Load libraries
+# ---- Load libraries ---- 
 library(pOmics)
 library(tidyverse)
 
-# Load data image
+
+# ---- Load data image ----
 load("Data/RData/02.RData")
 
 
-
-# Add combined dataset
-#add_combined_dataset()
-
-
-# Setup annotation databases
+# ---- Setup taxonomy information ----
 setup_taxonomy_information()
 
-# Setup organism annotation package
-setup_org_database()
+
+# Set attributes manually
+
+# UniProt taxonomy ID
+set_dataset_attr(x = taxId, which = "taxId", dataset = dataset)
+
+# Scientific name (not important)
+set_dataset_attr(x = scientific_name, 
+                 which = "scientific_name", 
+                 dataset = 1)
+
+# KEGG organism code
+clusterProfiler::search_kegg_organism("Pseudomonas ae")
+
+set_dataset_attr(x = "pae", which = "kegg_code", dataset = dataset)
+
+# Common name ( not important)
+set_dataset_attr(x = common_name, which = "common_name", dataset = dataset)
 
 
-# CORUM
+
+# ---- Setup organism annotation package (if available from Bioconductor) ---- 
+setup_org_database(dataset = 1, 
+                   OrgDb = , 
+                   taxId = )
+
+
+
+# ---- Setup other annotation databases (ToDo) ----
+
 #setup_CORUM_annotations()
 
-
-#setup_STRINGdb(dataset = )
+#setup_STRINGdb()
 
 #setup_MSigDB()
 
 
 
-import_fasta(file = "Data/Human_21042021_uniprot-reviewed yes+taxonomy 9606.fasta")
-
-
+# Test annotation
 test <- fun_enrich(proteins = get_variables(), 
                    background = get_proteome(), 
                    database = c("GO", "KEGG"), 
@@ -46,7 +65,5 @@ test <- fun_enrich(proteins = get_variables(),
 rm(test)
 
 
-
-
-# Save data image
+# ---- Save data image ----
 save.image("Data/RData/03.RData")

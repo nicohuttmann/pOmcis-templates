@@ -1,131 +1,79 @@
 
-
-# 02
+# 
+# 01
 # Data preparation
+#
 
 
-# Load libraries
+# ---- Load libraries ----
 library(pOmics)
 library(tidyverse)
 
-# Load data image
+
+# ---- Load data image ----
 load("Data/RData/00.RData")
 
 
+# ---- Add info from csv to dataset
+add_info_from_csv(x = .imports[["Dataset_info"]],
+                  dataset = "proteinGroups")
 
 
-# DEN dataset
-set_default_dataset(name = "Dataset1")
 
 
+# ---- Manually add data from csv file ----
 
-# Define technical replicate groups (Technical replicates are indicated as sample_name_A and sample_name_B)
-dummy <- get_observations_template(dataset = 1)
-dummy[] <- substr(names(dummy), 1, nchar(names(dummy)) - 2)
+# Pull data from info data frame
+template <- dplyr::pull(.imports[["proteinGroups_info"]], 
+                        var = "groups", 
+                        name = "id")
 
+# Define levels
+template <- factor(x = template,
+                   levels = c("group1",
+                              "group2"))
 
-# Add groups
-add_observations_data(data = factor(dummy),
+# Check 
+template
+
+# Add observations description
+add_observations_data(data = template,
                       name = "groups",
-                      dataset = "Dataset1")
+                      observations.set = "raw",
+                      dataset = c("proteinGroups"))
 
 
 
-# Combine technical replicates by mean but set to 0 if one of two values is 0
-data <- get_data(data.name = "LFQ.intensity", observations.set = "raw") %>%
-  include_groups(groups = groups) %>%
-  collapse_groups(FUN = mean_or_0, group.column = "groups")
+# ---- Manually define and add data from observation names ----
 
-# Save new data frame
-add_data(data = data,
-         name = "LFQ.tech.repl",
-         dataset = "Dataset",
-         set.default.data.name = TRUE,
-         new.observations.set.name = "combined")
-
-
-
-
-
-
-
-
-# Add sample names from info file
-dummy <- pull(.imports[["iDC_info"]], var = "name", name = "id")
-
-dummy <- factor(x = dummy,
-                levels = dummy)
-
-dummy
-
-add_observations_data(data = dummy,
-                      name = "name",
-                      observations.set = "combined",
-                      dataset = "Dataset1",
-                      order.by = TRUE)
-
-
-
-
-
-
-
-
-# Add sample groups
-dummy <- pull(.imports[["Dataset1_info"]], var = "groups", name = "id")
-
-dummy <- factor(x = dummy,
-                levels = c("group1",
-                           "group2",))
-
-dummy
-
-add_observations_data(data = dummy,
-                      name = "groups",
-                      observations.set = "combined",
-                      dataset = "DEN")
-
-
-# Add group labels
+# Get named empty vector with names of observations 
 template <- get_observations_template(dataset = 1)
 
-dummy <- c(rep(c("wt", "wt +DEN", "Hjv-/-", "Hjv-/- +DEN"), each = 5))
+# Modify names (e.g. condition_repl1 -> condition)
+template[] <- strsplit_keep(names(template), 1)
 
-names(dummy) <- names(template)
-
-dummy
-
-add_observations_data(data = factor(dummy),
-                      name = "group.label",
-                      observations.set = "combined",
-                      dataset = "Dataset1")
+# Save as factor (and optionally order with levels = ...)
+add_observations_data(data = factor(template),
+                      name = "condition", 
+                      dataset = 1:3)
 
 
 
+# ---- Set default dataset attributes ----
+# default_variables
+# default_variables_labels
+# default_observations_set
+# default_observations
+# default_observations_labels
+# default_groups
+# default_data_name
 
-
-# Add genotype data
-dummy <- pull(.imports[["Dataset1_info"]], var = "genotype", name = "id")
-
-dummy <- factor(x = dummy,
-                levels = c("WT", "HJV"))
-
-add_observations_data(data = dummy,
-                      name = "genotype",
-                      observations.set = "combined",
-                      dataset = "DEN",
-                      ignore.names = T)
-
-
-view_observations()
-
-
-rm(list = c("data",
-            "dummy",
-            "template"))
+# Example: Set default protein labels
+set_dataset_attr(x = "Gene.names", 
+                 which = "default_variables_labels", 
+                 dataset = "")
 
 
 
-
-# Save data image
+# ---- Save data image ----
 save.image("Data/RData/01.RData")
